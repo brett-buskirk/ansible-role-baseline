@@ -1,0 +1,32 @@
+# ref: meta/main.yml
+
+---
+galaxy_info:
+  author: Brett Buskirk
+  description: >-
+    Ansible role that hardens a fresh Ubuntu host — disables root SSH login,
+    sets up a UFW firewall and fail2ban, and installs Docker and Tailscale — on
+    top of ansible-role-secure_user.
+  license: MIT
+  min_ansible_version: "2.9"
+  platforms:
+    - name: Ubuntu
+      versions:
+        - all
+  galaxy_tags:
+    - baseline
+    - hardening
+    - security
+    - firewall
+    - ufw
+    - fail2ban
+    - docker
+    - tailscale
+    - server
+    - linux
+
+# secure_user runs first (creates the sudo user, installs its key, disables
+# password auth); this role hardens the host and installs the baseline services
+# on top of it. Consumers install both — see the README's requirements.yml.
+dependencies:
+  - role: brett-buskirk.secure_user

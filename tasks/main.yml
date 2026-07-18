@@ -1,0 +1,26 @@
+# ref: tasks/main.yml
+
+---
+# secure_user (a meta dependency) has already run: the sudo user exists, its key
+# is installed, and SSH password auth is off. This role hardens the host and
+# lays down the baseline services. Each block is opt-out via its default.
+
+- name: Harden SSH (disable root login)
+  import_tasks: ssh.yml
+  when: baseline_disable_root_login | bool
+
+- name: Configure the UFW firewall
+  import_tasks: ufw.yml
+  when: baseline_ufw_enabled | bool
+
+- name: Install and enable fail2ban
+  import_tasks: fail2ban.yml
+  when: baseline_fail2ban_enabled | bool
+
+- name: Install Docker Engine
+  import_tasks: docker.yml
+  when: baseline_install_docker | bool
+
+- name: Install Tailscale
+  import_tasks: tailscale.yml
+  when: baseline_install_tailscale | bool

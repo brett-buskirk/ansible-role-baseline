@@ -1,0 +1,32 @@
+# ref: tasks/ufw.yml
+
+---
+- name: Install ufw
+  apt:
+    name: ufw
+    state: present
+    update_cache: yes
+
+# Allow SSH (and any other configured apps/ports) BEFORE enabling the firewall,
+# so turning it on can never lock you out of the box.
+- name: Allow configured UFW application profiles
+  community.general.ufw:
+    rule: allow
+    name: "{{ item }}"
+  loop: "{{ baseline_ufw_allow }}"
+
+- name: Allow configured UFW ports
+  community.general.ufw:
+    rule: allow
+    port: "{{ (item | string).split('/')[0] }}"
+    proto: "{{ (item | string).split('/')[1] if '/' in (item | string) else 'tcp' }}"
+  loop: "{{ baseline_ufw_allow_ports }}"
+
+- name: Set default policies and enable UFW
+  community.general.ufw:
+    state: enabled
+    direction: "{{ item.direction }}"
+    policy: "{{ item.policy }}"
+  loop:
+    - { direction: incoming, policy: deny }
+    - { direction: outgoing, policy: allow }
