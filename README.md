@@ -1,17 +1,17 @@
 # ansible-role-baseline
 
-This Ansible role lays down a **baseline for a fresh Ubuntu host**: it hardens SSH (disables direct root
+This Ansible role lays down a **baseline for a fresh Debian host**: it hardens SSH (disables direct root
 login), stands up a **UFW** firewall and **fail2ban**, and installs **Docker** and **Tailscale**. It
 builds on [`ansible-role-secure_user`](https://github.com/brett-buskirk/ansible-role-secure_user) — a
 role dependency that runs first to create the sudo user, install its SSH key, and disable password
 authentication.
 
-It's meant for the DigitalOcean (or any) Ubuntu droplets you provision as code: `terraform apply` the
+It's meant for the DigitalOcean (or any) Debian droplets you provision as code: `terraform apply` the
 box, then apply this role to make it a hardened, Docker- and Tailscale-ready host.
 
 ## Requirements
 
-* An Ubuntu-based target host.
+* A Debian target host (bookworm — the tasks key off `ansible_distribution`, so newer Debian should work too).
 * Ansible, run with root privileges (`become: true`).
 * The [`community.general`](https://galaxy.ansible.com/community/general) collection (for the `ufw`
   module). It ships with the full `ansible` package; install it explicitly with

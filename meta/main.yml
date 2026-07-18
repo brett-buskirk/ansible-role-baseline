@@ -4,16 +4,16 @@
 galaxy_info:
   author: Brett Buskirk
   description: >-
-    Ansible role that hardens a fresh Ubuntu host — disables root SSH login,
+    Ansible role that hardens a fresh Debian host — disables root SSH login,
     sets up a UFW firewall and fail2ban, and installs Docker and Tailscale — on
     top of ansible-role-secure_user.
   company: Brett Buskirk LLC
   license: MIT
   min_ansible_version: "2.9"
   platforms:
-    - name: Ubuntu
+    - name: Debian
       versions:
-        - all
+        - bookworm
   galaxy_tags:
     - baseline
     - hardening
