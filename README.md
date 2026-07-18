@@ -6,8 +6,8 @@ builds on [`ansible-role-secure_user`](https://github.com/brett-buskirk/ansible-
 role dependency that runs first to create the sudo user, install its SSH key, and disable password
 authentication.
 
-It's meant for the DigitalOcean (or any) Debian/Ubuntu droplets you provision as code: `terraform apply`
-the box, then apply this role to make it a hardened, Docker- and Tailscale-ready host.
+It's meant for the DigitalOcean (or any) Ubuntu droplets you provision as code: `terraform apply` the
+box, then apply this role to make it a hardened, Docker- and Tailscale-ready host.
 
 ## Requirements
 
@@ -38,7 +38,9 @@ the box, then apply this role to make it a hardened, Docker- and Tailscale-ready
 | `baseline_tailscale_authkey` | Auth key to `tailscale up` non-interactively. Empty = install only. **Pass from a vault; never commit one.** | `""` |
 | `baseline_tailscale_up_args` | Extra flags for `tailscale up` (e.g. `--ssh`). | `""` |
 
-Every block is opt-out — set its `baseline_*_enabled` / `baseline_install_*` to `false` to skip it.
+Every block is opt-out — set its toggle (`baseline_disable_root_login`, `baseline_ufw_enabled`,
+`baseline_fail2ban_enabled`, `baseline_install_docker`, `baseline_install_tailscale`) to `false` to skip
+it.
 
 ## Dependencies
 

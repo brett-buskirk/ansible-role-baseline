@@ -7,6 +7,7 @@ galaxy_info:
     Ansible role that hardens a fresh Ubuntu host — disables root SSH login,
     sets up a UFW firewall and fail2ban, and installs Docker and Tailscale — on
     top of ansible-role-secure_user.
+  company: Brett Buskirk LLC
   license: MIT
   min_ansible_version: "2.9"
   platforms:
