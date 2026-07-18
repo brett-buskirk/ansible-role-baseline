@@ -6,6 +6,8 @@ All notable changes to ansible-role-baseline are documented here. The format is 
 
 ## [Unreleased]
 
+## [1.0.0] - 2026-07-18
+
 ### Added
 - Initial `baseline` Ansible role — a host-hardening baseline for fresh Debian servers, built on
   `brett-buskirk.secure_user` (a role dependency that creates the sudo user, installs its key, and
@@ -19,4 +21,7 @@ All notable changes to ansible-role-baseline are documented here. The format is 
 - **Tailscale:** installs Tailscale from its official apt repo; brings the node onto the tailnet when a
   (vault-supplied) auth key is set.
 - Config-driven via `defaults/main.yml`; every block is opt-out. Galaxy metadata targeting Debian
-  (bookworm), `min_ansible_version: 2.9`.
+  (bookworm and trixie), `min_ansible_version: 2.9`.
+
+[Unreleased]: https://github.com/brett-buskirk/ansible-role-baseline/compare/v1.0.0...HEAD
+[1.0.0]: https://github.com/brett-buskirk/ansible-role-baseline/releases/tag/v1.0.0

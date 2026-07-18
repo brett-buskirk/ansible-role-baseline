@@ -18,7 +18,7 @@ None are committed or urgent.
 - [ ] Molecule + CI test coverage exercising the role against a real container on every PR.
 - [ ] Optional `unattended-upgrades` / automatic security updates.
 - [ ] Deeper, configurable SSH hardening (ciphers, `MaxAuthTries`, `LoginGraceTime`).
-- [ ] Broaden beyond Debian bookworm — Ubuntu and newer Debian are close (the tasks already key off
-      `ansible_distribution`); add them to `platforms` once verified.
+- [ ] Broaden to Ubuntu — the tasks already key off `ansible_distribution`, so it's mostly a `platforms`
+      declaration + verification. (Debian bookworm + trixie are already supported.)
 - [ ] If the baseline grows, split Docker / Tailscale into their own single-purpose roles and depend on
       them here, keeping the estate's granular-role convention.

@@ -11,7 +11,7 @@ box, then apply this role to make it a hardened, Docker- and Tailscale-ready hos
 
 ## Requirements
 
-* A Debian target host (bookworm — the tasks key off `ansible_distribution`, so newer Debian should work too).
+* A Debian target host — **bookworm or trixie** (the tasks key off `ansible_distribution`).
 * Ansible, run with root privileges (`become: true`).
 * The [`community.general`](https://galaxy.ansible.com/community/general) collection (for the `ufw`
   module). It ships with the full `ansible` package; install it explicitly with
