@@ -1,0 +1,25 @@
+# ref: tasks/fail2ban.yml
+
+---
+- name: Install fail2ban
+  apt:
+    name: fail2ban
+    state: present
+    update_cache: yes
+
+# fail2ban ships jails disabled by default — without a jail.local enabling one,
+# it protects nothing. The default here enables the sshd jail.
+- name: Configure fail2ban jail.local
+  copy:
+    dest: /etc/fail2ban/jail.local
+    content: "{{ baseline_fail2ban_jail_local }}"
+    owner: root
+    group: root
+    mode: "0644"
+  notify: Restart fail2ban
+
+- name: Enable and start fail2ban
+  service:
+    name: fail2ban
+    state: started
+    enabled: yes

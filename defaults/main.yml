@@ -1,0 +1,42 @@
+# ref: defaults/main.yml
+
+---
+# --- SSH hardening ---------------------------------------------------------
+# secure_user (a dependency) already disables password authentication; this
+# role additionally disables direct root login. Make sure the sudo user
+# secure_user created works before this takes effect (it runs first, so it does).
+baseline_disable_root_login: true
+
+# --- UFW firewall ----------------------------------------------------------
+baseline_ufw_enabled: true
+# Inbound to allow. SSH (the "OpenSSH" app profile) is allowed BEFORE the
+# firewall is enabled, so turning it on never locks you out. Add app profiles
+# here; add numeric ports below.
+baseline_ufw_allow:
+  - OpenSSH
+# Extra numeric rules as "port/proto" (proto defaults to tcp), e.g.:
+#   ["80/tcp", "443/tcp"]
+baseline_ufw_allow_ports: []
+
+# --- fail2ban --------------------------------------------------------------
+baseline_fail2ban_enabled: true
+# jail.local contents. The default enables the sshd jail (fail2ban does nothing
+# without an enabled jail). Override to add your own jails.
+baseline_fail2ban_jail_local: |
+  [sshd]
+  enabled = true
+
+# --- Docker ----------------------------------------------------------------
+baseline_install_docker: true
+# Users to add to the docker group (e.g. the sudo user secure_user created).
+# A member of this group has root-equivalent access via Docker — keep it tight.
+baseline_docker_users: []
+
+# --- Tailscale -------------------------------------------------------------
+baseline_install_tailscale: true
+# A Tailscale auth key brings the node onto your tailnet non-interactively.
+# Leave EMPTY to install Tailscale but not run `tailscale up` (connect by hand,
+# or pass a key from a vault at runtime). NEVER commit a real key.
+baseline_tailscale_authkey: ""
+# Extra flags for `tailscale up` (e.g. "--ssh" or "--advertise-tags=tag:server").
+baseline_tailscale_up_args: ""

@@ -1,0 +1,39 @@
+# ref: tasks/tailscale.yml
+
+---
+# Tailscale from its official apt repo (not the install.sh | sh one-liner), so
+# it's idempotent and driven by Ansible.
+- name: Add Tailscale's GPG key
+  get_url:
+    url: "https://pkgs.tailscale.com/stable/{{ ansible_distribution | lower }}/{{ ansible_distribution_release }}.noarmor.gpg"
+    dest: /usr/share/keyrings/tailscale-archive-keyring.gpg
+    mode: "0644"
+
+- name: Add the Tailscale apt repository
+  apt_repository:
+    repo: >-
+      deb [signed-by=/usr/share/keyrings/tailscale-archive-keyring.gpg]
+      https://pkgs.tailscale.com/stable/{{ ansible_distribution | lower }}
+      {{ ansible_distribution_release }} main
+    filename: tailscale
+    state: present
+
+- name: Install Tailscale
+  apt:
+    name: tailscale
+    state: present
+    update_cache: yes
+
+- name: Ensure tailscaled is enabled and running
+  service:
+    name: tailscaled
+    state: started
+    enabled: yes
+
+# Only connect when an auth key is supplied (from a vault at runtime — never a
+# committed value). no_log keeps the key out of Ansible output.
+- name: Bring the node onto the tailnet
+  command: "tailscale up --authkey={{ baseline_tailscale_authkey }} {{ baseline_tailscale_up_args }}"
+  when: baseline_tailscale_authkey | length > 0
+  no_log: true
+  changed_when: true
